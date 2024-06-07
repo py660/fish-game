@@ -43,12 +43,12 @@ setInterval(()=>{
 
     let newsprites = [];
     for (let sprite of sprites){
-        ctx.fillStyle = "red";
+        /*ctx.fillStyle = "red";
         ctx.fillRect(sprite.dest[0]-x, sprite.dest[1], 5, 5);
         ctx.fillRect(10+size, y + size, 5, 5);
         ctx.fillStyle = "green";
         ctx.fillRect(sprite.dest[0]-x, sprite.dest[1]+sprite.dest[3], 5, 5);
-        ctx.fillRect(10+size, y, 5, 5);
+        ctx.fillRect(10+size, y, 5, 5);*/
 
         if (! (sprite.dest[0]-x < 10+size && 10+size < sprite.dest[0]-x+20 && sprite.dest[1] < y + size && sprite.dest[1] + sprite.dest[3] > y)){
             newsprites.push(sprite);
