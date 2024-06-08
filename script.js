@@ -32,9 +32,11 @@ let eatTimeout;
 
 let sprites = [];
 let x = 0;
+let lives = 3;
 
 setInterval(()=>{
-    power = Math.min(10, power + (speed/6 - power)*0.03);
+    console.log(speed, power);
+    power = Math.min(1, power + (speed/6 - power)*0.03);
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = "rgb(108, 108, 118)";
     //ctx.fillRect(0, height - height*power, width, height*power);
@@ -62,6 +64,7 @@ setInterval(()=>{
         }
         else if (sprite.type == 2){
             console.log("Ohno there goes -45pts");
+            lives--;
         }
         else{
             eating = true;
