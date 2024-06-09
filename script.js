@@ -70,6 +70,7 @@ let mainloop = setInterval(()=>{
                     countdown--;
                 }
             }, 1000);
+            setTimeout(spawn, 700);
             started = true;
         }
     }
@@ -82,6 +83,9 @@ let mainloop = setInterval(()=>{
 
         let newsprites = [];
         for (let sprite of sprites){
+            if (sprite.dest[0]-x+sprite.dest[2] < 0){
+                continue;
+            }
             /*ctx.fillStyle = "red";
             ctx.fillRect(sprite.dest[0]-x, sprite.dest[1], 5, 5);
             ctx.fillRect(10+size, y + size, 5, 5);
@@ -94,7 +98,7 @@ let mainloop = setInterval(()=>{
             if (sprite.type == 1){
                 sprite.dest[0] -= 0.5;
             }
-            if (sprite.dest[0]-x > 0 && (eaten || ! (sprite.dest[0]-x < 10+size && 10+size < sprite.dest[0]-x+20 && sprite.dest[1] < y + size && sprite.dest[1] + sprite.dest[3] > y))){
+            if (eaten || ! (sprite.dest[0]-x < 10+size && 10+size < sprite.dest[0]-x+20 && sprite.dest[1] < y + size && sprite.dest[1] + sprite.dest[3] > y)){
                 newsprites.push(sprite);
                 ctx.drawImage([img.tiny, img.big, img.shark][sprite.type], ...sprite.source, sprite.dest[0]-x, ...sprite.dest.slice(1));
             }
@@ -149,32 +153,66 @@ let mainloop = setInterval(()=>{
 
 function spawn(){
     if (document.hasFocus()){
-        let rand = Math.random()*3;
-        if (rand < 1.5){ //Tiny fish
-            let y = Math.min(height-10-size/5, Math.max(10+size/5, height - height*Math.random())) - size/5;
-            sprites.push({
-                type: 0,
-                dest: [x+width, y, 4/5 * size, 3/5 * size],
-                source: [0, 3, 16, 10]
-            });
-        }
-        else if (rand < 2.25){ //Big fish
-            let y = Math.min(height-10-size/2, Math.max(10+size/2, height - height*Math.random())) - size/2;
-            sprites.push({
-                type: 1,
-                dest: [x+width, y, 6*size/5, 4*size/5],
-                source: [2, 6, 29, 20]
-            });
-        }
-        else{ //Shark
-            let y = Math.min(height-10-size, Math.max(10+size, height - height*Math.random())) - size;
-            sprites.push({
-                type: 2,
-                dest: [x+width, y, 2*size, 5*size/3],
-                source: [4, 10, 58, 48]
-            });
+        while (true){
+            let rand = Math.random()*3;
+            if (rand < 1.5){ //Tiny fish
+                let y = Math.min(height-10-size/5, Math.max(10+size/5, height - height*Math.random())) - size/5;
+                let conflict = false;
+                for (let sprite of sprites){
+                    if (x+width-sprite.dest[0] < size){
+                        if (Math.abs(sprite.dest[1]-y < size)){
+                            conflict = true;
+                        }
+                    }
+                }
+                if (!conflict){
+                    sprites.push({
+                        type: 0,
+                        dest: [x+width, y, 4/5 * size, 3/5 * size],
+                        source: [0, 3, 16, 10]
+                    });
+                    break;
+                }
+            }
+            else if (rand < 2.25){ //Big fish
+                let y = Math.min(height-10-size/2, Math.max(10+size/2, height - height*Math.random())) - size/2;
+                let conflict = false;
+                for (let sprite of sprites){
+                    if (x+width-sprite.dest[0] < size){
+                        if (Math.abs(sprite.dest[1]-y < size)){
+                            conflict = true;
+                        }
+                    }
+                }
+                if (!conflict){
+                    sprites.push({
+                        type: 1,
+                        dest: [x+width, y, 6*size/5, 4*size/5],
+                        source: [2, 6, 29, 20]
+                    });
+                    break;
+                }
+            }
+            else{ //Shark
+                let y = Math.min(height-10-size, Math.max(10+size, height - height*Math.random())) - size;
+                let conflict = false;
+                for (let sprite of sprites){
+                    if (x+width-sprite.dest[0] < size){
+                        if (Math.abs(sprite.dest[1]-y < size)){
+                            conflict = true;
+                        }
+                    }
+                }
+                if (!conflict){
+                    sprites.push({
+                        type: 2,
+                        dest: [x+width, y, 2*size, 5*size/3],
+                        source: [4, 10, 58, 48]
+                    });
+                    break;
+                };
+            }
         }
     }
     setTimeout(spawn, 300 + Math.random() * 800);
 }
-setTimeout(spawn, 700);
