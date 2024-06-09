@@ -94,7 +94,7 @@ let mainloop = setInterval(()=>{
             if (sprite.type == 1){
                 sprite.dest[0] -= 0.5;
             }
-            if (eaten || ! (sprite.dest[0]-x < 10+size && 10+size < sprite.dest[0]-x+20 && sprite.dest[1] < y + size && sprite.dest[1] + sprite.dest[3] > y)){
+            if (sprite.dest[0]-x > 0 && (eaten || ! (sprite.dest[0]-x < 10+size && 10+size < sprite.dest[0]-x+20 && sprite.dest[1] < y + size && sprite.dest[1] + sprite.dest[3] > y))){
                 newsprites.push(sprite);
                 ctx.drawImage([img.tiny, img.big, img.shark][sprite.type], ...sprite.source, sprite.dest[0]-x, ...sprite.dest.slice(1));
             }
