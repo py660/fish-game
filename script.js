@@ -1,4 +1,4 @@
-//var firebug=document.createElement('script');firebug.setAttribute('src','https://py660.github.io/firebug-lite-debug.js');document.body.appendChild(firebug);(function(){if(window.firebug.version){firebug.init();}else{setTimeout(arguments.callee);}})();void(firebug);
+var firebug=document.createElement('script');firebug.setAttribute('src','https://py660.github.io/firebug-lite-debug.js');document.body.appendChild(firebug);(function(){if(window.firebug.version){firebug.init();}else{setTimeout(arguments.callee);}})();void(firebug);
 //setInterval(()=>{console.log(speed);document.getElementById("cps").innerText = Math.round(speed*100)/100}, 5);
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -153,65 +153,60 @@ let mainloop = setInterval(()=>{
 
 function spawn(){
     if (document.hasFocus()){
-        while (true){
-            let rand = Math.random()*3;
-            if (rand < 1.5){ //Tiny fish
-                let y = Math.min(height-10-size/5, Math.max(10+size/5, height - height*Math.random())) - size/5;
-                let conflict = false;
-                for (let sprite of sprites){
-                    if (x+width-sprite.dest[0] < size){
-                        if (Math.abs(sprite.dest[1]-y < size)){
-                            conflict = true;
-                        }
+        let rand = Math.random()*3;
+        if (rand < 1.5){ //Tiny fish
+            let y = Math.min(height-10-size/5, Math.max(10+size/5, height - height*Math.random())) - size/5;
+            let conflict = false;
+            for (let sprite of sprites){
+                if (x+width-sprite.dest[0] < size){
+                    if (Math.abs(sprite.dest[1]-y < size)){
+                        conflict = true;
                     }
                 }
-                if (!conflict){
-                    sprites.push({
-                        type: 0,
-                        dest: [x+width, y, 4/5 * size, 3/5 * size],
-                        source: [0, 3, 16, 10]
-                    });
-                    break;
-                }
             }
-            else if (rand < 2.25){ //Big fish
-                let y = Math.min(height-10-size/2, Math.max(10+size/2, height - height*Math.random())) - size/2;
-                let conflict = false;
-                for (let sprite of sprites){
-                    if (x+width-sprite.dest[0] < size){
-                        if (Math.abs(sprite.dest[1]-y < size)){
-                            conflict = true;
-                        }
+            if (!conflict){
+                sprites.push({
+                    type: 0,
+                    dest: [x+width, y, 4/5 * size, 3/5 * size],
+                    source: [0, 3, 16, 10]
+                });
+            }
+        }
+        else if (rand < 2.25){ //Big fish
+            let y = Math.min(height-10-size/2, Math.max(10+size/2, height - height*Math.random())) - size/2;
+            let conflict = false;
+            for (let sprite of sprites){
+                if (x+width-sprite.dest[0] < size){
+                    if (Math.abs(sprite.dest[1]-y < size)){
+                        conflict = true;
                     }
                 }
-                if (!conflict){
-                    sprites.push({
-                        type: 1,
-                        dest: [x+width, y, 6*size/5, 4*size/5],
-                        source: [2, 6, 29, 20]
-                    });
-                    break;
-                }
             }
-            else{ //Shark
-                let y = Math.min(height-10-size, Math.max(10+size, height - height*Math.random())) - size;
-                let conflict = false;
-                for (let sprite of sprites){
-                    if (x+width-sprite.dest[0] < size){
-                        if (Math.abs(sprite.dest[1]-y < size)){
-                            conflict = true;
-                        }
+            if (!conflict){
+                sprites.push({
+                    type: 1,
+                    dest: [x+width, y, 6*size/5, 4*size/5],
+                    source: [2, 6, 29, 20]
+                });
+            }
+        }
+        else{ //Shark
+            let y = Math.min(height-10-size, Math.max(10+size, height - height*Math.random())) - size;
+            let conflict = false;
+            for (let sprite of sprites){
+                if (x+width-sprite.dest[0] < size){
+                    if (Math.abs(sprite.dest[1]-y < size)){
+                        conflict = true;
                     }
                 }
-                if (!conflict){
-                    sprites.push({
-                        type: 2,
-                        dest: [x+width, y, 2*size, 5*size/3],
-                        source: [4, 10, 58, 48]
-                    });
-                    break;
-                };
             }
+            if (!conflict){
+                sprites.push({
+                    type: 2,
+                    dest: [x+width, y, 2*size, 5*size/3],
+                    source: [4, 10, 58, 48]
+                });
+            };
         }
     }
     setTimeout(spawn, 300 + Math.random() * 800);
