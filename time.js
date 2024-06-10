@@ -1,7 +1,8 @@
 let clicks = [];
+let totalclicks = 0;
 let speed = 0; //PUBLIC
 // Date.now() -> time in ms
-document.body.addEventListener("click", ()=>{clicks.push(Date.now())});
+document.body.addEventListener("click", ()=>{clicks.push(Date.now()); totalclicks++});
 setInterval(()=>{
     let newclicks = [];
     for (let i of clicks){

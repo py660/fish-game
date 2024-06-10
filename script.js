@@ -1,4 +1,4 @@
-var firebug=document.createElement('script');firebug.setAttribute('src','https://py660.github.io/firebug-lite-debug.js');document.body.appendChild(firebug);(function(){if(window.firebug.version){firebug.init();}else{setTimeout(arguments.callee);}})();void(firebug);
+//var firebug=document.createElement('script');firebug.setAttribute('src','https://py660.github.io/firebug-lite-debug.js');document.body.appendChild(firebug);(function(){if(window.firebug.version){firebug.init();}else{setTimeout(arguments.callee);}})();void(firebug);
 //setInterval(()=>{console.log(speed);document.getElementById("cps").innerText = Math.round(speed*100)/100}, 5);
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -45,6 +45,7 @@ let x = 0;
 let lives = 3;
 let points = 0;
 let countdown = 240;
+let totaltime = countdown;
 
 let mainloop = setInterval(()=>{
     power = Math.min(1, power + (speed/6 - power)*0.03);
@@ -59,12 +60,73 @@ let mainloop = setInterval(()=>{
             setInterval(()=>{
                 if (countdown <= 0){
                     clearInterval(mainloop); 
-                    ctx.fillStyle = "red";
+
+                    ctx.clearRect(0, 0, width, height);
+                    
+                    /*strokeStyle
+                    beginPath
+                    roundRect
+                    stroke*/
+                    ctx.fillStyle = "black";
+                    ctx.beginPath();
+                    ctx.roundRect(width/2-1000/2+20, height/2-750/2+20, 1000, 750, 50);
+                    ctx.fill();
+                    ctx.fillStyle = "rgb(126, 126, 137)";
+                    ctx.beginPath();
+                    ctx.roundRect(width/2-1000/2, height/2-750/2, 1000, 750, 50);
+                    ctx.fill();
                     ctx.strokeStyle = "black";
+                    ctx.lineWidth = "10px";
+                    ctx.beginPath();
+                    ctx.roundRect(width/2-1000/2, height/2-750/2, 1000, 750, 50);
+                    ctx.stroke();
+
+                    ctx.fillStyle = "black";//red
+                    //ctx.strokeStyle = "black";
                     ctx.font = "100px Courier New, monospace";
                     let gameovertext = "GAME OVER";
-                    ctx.fillText(gameovertext, width/2 - ctx.measureText(gameovertext).width/2, height/2 - 50);
-                    ctx.strokeText(gameovertext, width/2 - ctx.measureText(gameovertext).width/2, height/2 - 50);
+                    ctx.fillText(gameovertext, width/2 - ctx.measureText(gameovertext).width/2, height/2 - 50 - 200);
+                    //ctx.strokeText(gameovertext, width/2 - ctx.measureText(gameovertext).width/2, height/2 - 50);
+
+                    ctx.fillStyle = "black";
+                    ctx.font = "50px Courier New, monospace";
+                    pointtext = "Points";
+                    separatortext = ":";
+                    timetext = points;
+                    ctx.fillText(pointtext, width/2 - ctx.measureText(pointtext).width - 10, height/2 - 50 - 125);
+                    ctx.fillText(separatortext, width/2 - ctx.measureText(separatortext).width/2, height/2 - 50 - 125);
+                    ctx.font = "bold 50px Courier New, monospace";
+                    ctx.fillText(timetext, width/2 + 35, height/2 - 50 - 125);
+                    
+                    ctx.fillStyle = "black";
+                    ctx.font = "50px Courier New, monospace";
+                    pointtext = "Time Used";
+                    separatortext = ":";
+                    timetext = `${Math.floor(totaltime/60).toString().padStart(2, "0")}:${(totaltime%60).toString().padStart(2, "0")}`;
+                    ctx.fillText(pointtext, width/2 - ctx.measureText(pointtext).width - 10, height/2 - 50 - 75);
+                    ctx.fillText(separatortext, width/2 - ctx.measureText(separatortext).width/2, height/2 - 50 - 75);
+                    ctx.font = "bold 50px Courier New, monospace";
+                    ctx.fillText(timetext, width/2 + 35, height/2 - 50 - 75);
+                    
+                    ctx.fillStyle = "black";
+                    ctx.font = "50px Courier New, monospace";
+                    pointtext = "Total clicks";
+                    separatortext = ":";
+                    timetext = totalclicks;
+                    ctx.fillText(pointtext, width/2 - ctx.measureText(pointtext).width - 10, height/2 - 50 - 25);
+                    ctx.fillText(separatortext, width/2 - ctx.measureText(separatortext).width/2, height/2 - 50 - 25);
+                    ctx.font = "bold 50px Courier New, monospace";
+                    ctx.fillText(timetext, width/2 + 35, height/2 - 50 - 25);
+
+                    ctx.fillStyle = "black";
+                    ctx.font = "50px Courier New, monospace";
+                    pointtext = "Avg. CPS";
+                    separatortext = ":";
+                    timetext = Math.round(totalclicks/totaltime*100)/100;
+                    ctx.fillText(pointtext, width/2 - ctx.measureText(pointtext).width - 10, height/2 - 50 + 25);
+                    ctx.fillText(separatortext, width/2 - ctx.measureText(separatortext).width/2, height/2 - 50 + 25);
+                    ctx.font = "bold 50px Courier New, monospace";
+                    ctx.fillText(timetext, width/2 + 35, height/2 - 50 + 25);
                 }
                 else{
                     countdown--;
