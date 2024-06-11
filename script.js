@@ -100,7 +100,7 @@ let mainloop = setInterval(()=>{
                     
                     ctx.fillStyle = "black";
                     ctx.font = "50px Courier New, monospace";
-                    pointtext = "Time Used";
+                    pointtext = "Time spent";
                     separatortext = ":";
                     timetext = `${Math.floor(totaltime/60).toString().padStart(2, "0")}:${(totaltime%60).toString().padStart(2, "0")}`;
                     ctx.fillText(pointtext, width/2 - ctx.measureText(pointtext).width - 10, height/2 - 50 - 75);
