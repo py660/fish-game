@@ -187,7 +187,7 @@ let mainloop = setInterval(()=>{
                     }
                     
                     clearTimeout(eatTimeout);
-                    eatingTimeout = setTimeout(()=>{eating = false}, 500);
+                    eatTimeout = setTimeout(()=>{eating = false}, 500);
                 }
             }
             sprites = newsprites;
